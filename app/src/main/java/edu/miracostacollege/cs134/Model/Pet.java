@@ -1,13 +1,23 @@
 package edu.miracostacollege.cs134.Model;
 
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Pet {
+public class Pet implements Parcelable {
     private String mDetails;
     private long mId;
     private String mName;
     private String mPhone;
     private Uri mImageURI;
+
+    private Pet(Parcel in){
+        mDetails = in.readString() ;
+        mId = in.readLong() ;
+        mName = in.readString() ;
+        mPhone = in.readString() ;
+        mImageURI = Uri.parse(in.readString()) ;
+    }
 
     public Pet(String mDetails, long mId, String mName, String mPhone, Uri mImageURI) {
         this.mDetails = mDetails;
@@ -22,6 +32,40 @@ public class Pet {
         this.mName = mName;
         this.mPhone = mPhone;
         this.mImageURI = mImageURI;
+    }
+
+    public Pet(String mDetails, String mName, String mPhone) {
+        this.mDetails = mDetails;
+        this.mName = mName;
+        this.mPhone = mPhone;
+    }
+
+
+    public static final Creator<Pet> CREATOR = new Creator<Pet>() {
+        @Override
+        public Pet createFromParcel(Parcel source) {
+            return new Pet(source);
+        }
+
+        @Override
+        public Pet[] newArray(int size) {
+            return new Pet[size];
+        }
+    } ;
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mDetails);
+        dest.writeLong(mId);
+        dest.writeString(mName);
+        dest.writeString(mPhone);
+        dest.writeString(String.valueOf(mImageURI));
+
     }
 
     public String getmDetails() {
@@ -70,4 +114,8 @@ public class Pet {
                 ", mImageURI=" + mImageURI +
                 '}';
     }
+
+
+
+
 }

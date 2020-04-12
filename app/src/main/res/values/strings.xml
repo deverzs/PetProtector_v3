@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">Pet Protector</string>
-    <string name="my_pets">Pet Listing</string>
+    <string name="app_name">Animal Protector</string>
+    <string name="my_pets">Animal Listing</string>
     <string name="name">Name</string>
-    <string name="details">Pet Details</string>
+    <string name="details">Animal Details</string>
     <string name="phone_number">Phone Number</string>
-    <string name="add_button_text">Add Pet</string>
-    <string name="enter">Enter Pet To Protect</string>
-    <string name="photo">photo of pet</string>
+    <string name="add_button_text">Add Animal</string>
+    <string name="enter">Enter Animal To Protect</string>
+    <string name="photo">photo of animal</string>
     <string name="phone">Phone Number</string>
     <string name="description">Description</string>
 

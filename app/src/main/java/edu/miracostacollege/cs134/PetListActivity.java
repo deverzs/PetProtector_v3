@@ -13,18 +13,32 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.miracostacollege.cs134.Model.DBHelper;
+import edu.miracostacollege.cs134.Model.Pet;
+
 //Main
 public class PetListActivity extends AppCompatActivity {
+
+
     private ImageView petImageView;
     private Uri currentImage;
     public static final int RESULT_LOAD_IMAGE = 101;
+    public static final String TAG = "PetListActivity" ;
+
+    private DBHelper db;
+    private List<Pet> petList ;
+    private PetListAdapter petListAdapter ;
+    private ListView petListView ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +53,48 @@ public class PetListActivity extends AppCompatActivity {
         //to read the description as the screen reader, but content description
         //petImageView.setContentDescription(pet.getDescription());
 
+
+        petList = db.getAllPets() ;
+        petListAdapter = new PetListAdapter(this, R.layout.pet_list_item, petList) ;
+        petListView = findViewById(R.id.petListView) ;
+        petListView.setAdapter(petListAdapter);
+
+
     }
 
+    public  void viewPetDetails(View v){
+        Pet selectedPet = (Pet) v.getTag() ;
+
+        Intent detailsIntent = new Intent(this, PetDetailsActivity.class) ;
+        detailsIntent.putExtra("SelectedPet", selectedPet) ;
+        startActivity(detailsIntent);
+    }
+
+
+    //URI not being added --- FIGURE IT OUT
+    public void addPetButton(View v) {
+        EditText petNameEditText = findViewById(R.id.petNameEditText) ;
+        EditText descriptionEditText = findViewById(R.id.descriptionEditText);
+        EditText phoneEditText = findViewById(R.id.phoneEditText);
+
+        String name = petNameEditText.getText().toString() ;
+        String description = descriptionEditText.getText().toString() ;
+        String phone = phoneEditText.getText().toString() ;
+
+        if(TextUtils.isEmpty(name) || TextUtils.isEmpty(description) || TextUtils.isEmpty(phone)) {
+            Toast.makeText(this, "All fields have to be filled in." , Toast.LENGTH_LONG) ;
+            return ;
+        }
+
+        Pet newPet = new Pet(description, name, phone) ;
+        db.addPet(newPet);
+        petListAdapter.add(newPet);
+
+        petNameEditText.setText("");
+        descriptionEditText.setText("");
+        phoneEditText.setText("");
+
+    }
     //Helper method to construct URI in th form
     //Android.resource:packageName/ResourceTyep/ResourceName
 
@@ -155,4 +209,6 @@ public class PetListActivity extends AppCompatActivity {
         }
 
     }
+
+
 }
