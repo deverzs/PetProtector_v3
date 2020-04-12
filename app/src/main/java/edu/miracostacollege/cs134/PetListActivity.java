@@ -59,6 +59,8 @@ public class PetListActivity extends AppCompatActivity {
         petListView = findViewById(R.id.petListView) ;
         petListView.setAdapter(petListAdapter);
 
+        db.addPet(new Pet("Fluffy as a cloud", "Fluffy", "12547896")) ;
+
 
     }
 
