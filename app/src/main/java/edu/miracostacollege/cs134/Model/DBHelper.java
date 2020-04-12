@@ -76,7 +76,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase() ;
 
         Cursor cursor = db.query(TABLE_NAME,
-                new String[] {KEY_FIELD_ID, FIELD_DETAILS, FIELD_NAME, FIELD_PHONE, FIELD_IMAGE},
+                new String[] {KEY_FIELD_ID, FIELD_NAME, FIELD_DETAILS, FIELD_PHONE, FIELD_IMAGE},
                 null,
                 null,
                 null,
@@ -87,12 +87,13 @@ public class DBHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 long id = cursor.getLong( 0);
-                String details = cursor.getString(1);
-                String name = cursor.getString(2);
+                String name = cursor.getString(1);
+                String details = cursor.getString(2);
                 String phone = cursor.getString(3);
-                String image = cursor.getString(4);
+               // String image = cursor.getString(4);
 
-                allPets.add(new Pet(details, id, name, phone, Uri.parse(image))) ;
+                //allPets.add(new Pet(id, name, details, phone, Uri.parse(image))) ;
+                allPets.add(new Pet(id, name, details, phone)) ;
             } while (cursor.moveToNext()) ;
         }
 

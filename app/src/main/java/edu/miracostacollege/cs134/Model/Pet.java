@@ -5,21 +5,21 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Pet implements Parcelable {
-    private String mDetails;
     private long mId;
     private String mName;
+    private String mDetails;
     private String mPhone;
     private Uri mImageURI;
 
     private Pet(Parcel in){
-        mDetails = in.readString() ;
         mId = in.readLong() ;
         mName = in.readString() ;
+        mDetails = in.readString() ;
         mPhone = in.readString() ;
         mImageURI = Uri.parse(in.readString()) ;
     }
 
-    public Pet(String mDetails, long mId, String mName, String mPhone, Uri mImageURI) {
+    public Pet(long mId, String mName, String mDetails, String mPhone, Uri mImageURI) {
         this.mDetails = mDetails;
         this.mId = mId;
         this.mName = mName;
@@ -27,14 +27,21 @@ public class Pet implements Parcelable {
         this.mImageURI = mImageURI;
     }
 
-    public Pet(String mDetails, String mName, String mPhone, Uri mImageURI) {
+    public Pet(long mId, String mName, String mDetails, String mPhone) {
+        this.mDetails = mDetails;
+        this.mId = mId;
+        this.mName = mName;
+        this.mPhone = mPhone;
+    }
+
+    public Pet( String mName, String mDetails, String mPhone, Uri mImageURI) {
         this.mDetails = mDetails;
         this.mName = mName;
         this.mPhone = mPhone;
         this.mImageURI = mImageURI;
     }
 
-    public Pet(String mDetails, String mName, String mPhone) {
+    public Pet(String mName, String mDetails,  String mPhone) {
         this.mDetails = mDetails;
         this.mName = mName;
         this.mPhone = mPhone;
@@ -60,9 +67,9 @@ public class Pet implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mDetails);
         dest.writeLong(mId);
         dest.writeString(mName);
+        dest.writeString(mDetails);
         dest.writeString(mPhone);
         dest.writeString(String.valueOf(mImageURI));
 
