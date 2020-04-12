@@ -7,5 +7,7 @@
     <string name="add_button_text">Add Pet</string>
     <string name="enter">Enter Pet To Protect</string>
     <string name="photo">photo of pet</string>
+    <string name="phone">Phone Number</string>
+    <string name="description">Description</string>
 
 </resources>

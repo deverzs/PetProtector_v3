@@ -20,6 +20,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+//Main
 public class PetListActivity extends AppCompatActivity {
     private ImageView petImageView;
     private Uri currentImage;
@@ -45,7 +46,7 @@ public class PetListActivity extends AppCompatActivity {
 
     public static Uri  getUriToResource(Context context, int resID)
     {
-        //Get referece to all resources in app
+        //Get reference to all resources in app
         Resources res = context.getResources();
 
         String uriString = ContentResolver.SCHEME_ANDROID_RESOURCE +
@@ -114,7 +115,7 @@ public class PetListActivity extends AppCompatActivity {
 
 
         }
-//get result and put in image view
+        //get result and put in image view
         else //user not given permissions
         {
             //make toast
