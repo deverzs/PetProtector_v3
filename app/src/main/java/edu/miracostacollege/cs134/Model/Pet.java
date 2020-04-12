@@ -4,12 +4,12 @@ import android.net.Uri;
 
 public class Pet {
     private String mDetails;
-    private int mId;
+    private long mId;
     private String mName;
     private String mPhone;
     private Uri mImageURI;
 
-    public Pet(String mDetails, int mId, String mName, String mPhone, Uri mImageURI) {
+    public Pet(String mDetails, long mId, String mName, String mPhone, Uri mImageURI) {
         this.mDetails = mDetails;
         this.mId = mId;
         this.mName = mName;
@@ -32,7 +32,7 @@ public class Pet {
         this.mDetails = mDetails;
     }
 
-    public int getmId() {
+    public long getmId() {
         return mId;
     }
 
