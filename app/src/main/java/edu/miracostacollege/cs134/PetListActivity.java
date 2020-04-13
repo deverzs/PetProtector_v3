@@ -33,7 +33,7 @@ public class PetListActivity extends AppCompatActivity {
     private ImageView petImageView;
     private Uri currentImage;
     public static final int RESULT_LOAD_IMAGE = 101;
-    public static final String TAG = "PetListActivity" ;
+    public static final String TAG = PetListActivity.class.getSimpleName();
 
     private DBHelper db;
     private List<Pet> petList ;
@@ -45,6 +45,9 @@ public class PetListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_list);
 
+        db = new DBHelper(this);
+
+        db.addPet(new Pet( "Fluffy", "Fluffy as a cloud","12547896")) ;
         petImageView = findViewById((R.id.petImageView)) ;
         currentImage = getUriToResource(this, R.drawable.none) ;
 
@@ -59,7 +62,7 @@ public class PetListActivity extends AppCompatActivity {
         petListView = findViewById(R.id.petListView) ;
         petListView.setAdapter(petListAdapter);
 
-        db.addPet(new Pet( "Fluffy", "Fluffy as a cloud","12547896")) ;
+
 
 
     }

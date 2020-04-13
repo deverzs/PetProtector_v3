@@ -33,7 +33,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createSQL = "CREATE TABLE IF NOT EXISTS "
+        String table = "CREATE TABLE IF NOT EXISTS "
                 + TABLE_NAME + "("
                 + KEY_FIELD_ID + " INTEGER PRIMARY KEY, "
                 + FIELD_NAME + " TEXT, "
@@ -41,8 +41,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 + FIELD_PHONE + " TEXT, "
                 + FIELD_IMAGE + " TEXT"
                 + ")";
-        Log.i(DATABASE_NAME, createSQL) ;
-        db.execSQL(createSQL);
+        Log.i(DATABASE_NAME, table) ;
+        db.execSQL(table);
     }
 
     @Override
@@ -62,10 +62,13 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase() ;
         ContentValues values = new ContentValues() ;
 
-        values.put(FIELD_DETAILS, pet.getmDetails());
         values.put(FIELD_NAME, pet.getmName());
+        values.put(FIELD_DETAILS, pet.getmDetails());
         values.put(FIELD_PHONE, pet.getmPhone());
         values.put(FIELD_IMAGE, String.valueOf(pet.getmImageURI()));
+
+        long id = db.insert(TABLE_NAME, null, values) ;
+        pet.setmId(id);
 
         db.close();
         return 0;
@@ -90,10 +93,10 @@ public class DBHelper extends SQLiteOpenHelper {
                 String name = cursor.getString(1);
                 String details = cursor.getString(2);
                 String phone = cursor.getString(3);
-               // String image = cursor.getString(4);
+                String image = cursor.getString(4);
 
-                //allPets.add(new Pet(id, name, details, phone, Uri.parse(image))) ;
-                allPets.add(new Pet(id, name, details, phone)) ;
+                allPets.add(new Pet(id, name, details, phone, Uri.parse(image))) ;
+                //allPets.add(new Pet(id, name, details, phone)) ;
             } while (cursor.moveToNext()) ;
         }
 

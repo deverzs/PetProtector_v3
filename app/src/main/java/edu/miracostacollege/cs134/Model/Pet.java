@@ -20,33 +20,36 @@ public class Pet implements Parcelable {
     }
 
     public Pet(long mId, String mName, String mDetails, String mPhone, Uri mImageURI) {
-        this.mDetails = mDetails;
         this.mId = mId;
         this.mName = mName;
+        this.mDetails = mDetails;
         this.mPhone = mPhone;
         this.mImageURI = mImageURI;
     }
 
     public Pet(long mId, String mName, String mDetails, String mPhone) {
-        this.mDetails = mDetails;
         this.mId = mId;
         this.mName = mName;
+        this.mDetails = mDetails;
         this.mPhone = mPhone;
     }
 
     public Pet( String mName, String mDetails, String mPhone, Uri mImageURI) {
-        this.mDetails = mDetails;
         this.mName = mName;
+        this.mDetails = mDetails;
         this.mPhone = mPhone;
         this.mImageURI = mImageURI;
     }
 
     public Pet(String mName, String mDetails,  String mPhone) {
-        this.mDetails = mDetails;
         this.mName = mName;
+        this.mDetails = mDetails;
         this.mPhone = mPhone;
     }
 
+    public void setmId(long id){
+        this.mId = id;
+    }
 
     public static final Creator<Pet> CREATOR = new Creator<Pet>() {
         @Override

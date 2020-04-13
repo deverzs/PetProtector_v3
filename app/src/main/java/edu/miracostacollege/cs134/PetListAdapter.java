@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +14,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+
+import javax.security.auth.login.LoginException;
 
 import edu.miracostacollege.cs134.Model.Pet;
 
@@ -41,6 +48,7 @@ public class PetListAdapter extends ArrayAdapter {
 
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE) ;
         View view = inflater.inflate(mResource, null) ;
+
         LinearLayout petListLinearLayout = view.findViewById(R.id.petListLinearLayout) ;
         ImageView petListImageView = view.findViewById(R.id.petListImageView) ;
         TextView nameListTextView = view.findViewById(R.id.nameListTextView) ;
@@ -51,6 +59,14 @@ public class PetListAdapter extends ArrayAdapter {
         descriptionListTextView.setText(selectedPet.getmDetails());
 
         AssetManager am = mContext.getAssets() ;
+
+        try {
+            InputStream stream = am.open(selectedPet.getmName()) ;
+            Drawable event = Drawable.createFromStream(stream, selectedPet.getmName()) ;
+            petListImageView.setImageDrawable(event);
+        } catch (IOException e) {
+            Log.e("PetProtector" , "Error loading " + selectedPet.getmName(), e) ;
+        }
 
         return  view;
 
