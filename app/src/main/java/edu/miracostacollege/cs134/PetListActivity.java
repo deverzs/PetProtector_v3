@@ -50,7 +50,7 @@ public class PetListActivity extends AppCompatActivity {
         db.addPet(new Pet( "Fluffy", "Fluffy as a cloud","12547896")) ;
         petImageView = findViewById((R.id.petImageView)) ;
         currentImage = getUriToResource(this, R.drawable.none) ;
-
+        db.addPet(new Pet( "Fluffy", "Fluffy as a cloud","12547896", currentImage)) ;
         //assign petImageView to current Image in one line of code
         petImageView.setImageURI(currentImage);
         //to read the description as the screen reader, but content description
