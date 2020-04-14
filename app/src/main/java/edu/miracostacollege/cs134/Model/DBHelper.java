@@ -65,7 +65,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(FIELD_NAME, pet.getmName());
         values.put(FIELD_DETAILS, pet.getmDetails());
         values.put(FIELD_PHONE, pet.getmPhone());
-        values.put(FIELD_IMAGE, String.valueOf(pet.getmImageURI()));
+        values.put(FIELD_IMAGE, pet.getmImageURI().toString());
 
         long id = db.insert(TABLE_NAME, null, values) ;
         pet.setmId(id);

@@ -57,16 +57,8 @@ public class PetListAdapter extends ArrayAdapter {
         petListLinearLayout.setTag(selectedPet);
         nameListTextView.setText(selectedPet.getmName());
         descriptionListTextView.setText(selectedPet.getmDetails());
-
-        AssetManager am = mContext.getAssets() ;
-
-        try {
-            InputStream stream = am.open(selectedPet.getmName()) ;
-            Drawable event = Drawable.createFromStream(stream, selectedPet.getmName()) ;
-            petListImageView.setImageDrawable(event);
-        } catch (IOException e) {
-            Log.e("PetProtector" , "Error loading " + selectedPet.getmName(), e) ;
-        }
+        Log.e( "PetListAdapter====> " , selectedPet.getmImageURI().toString()) ;
+        petListImageView.setImageURI(selectedPet.getmImageURI());
 
         return  view;
 

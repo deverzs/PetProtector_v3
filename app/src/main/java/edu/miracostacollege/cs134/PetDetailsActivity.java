@@ -32,16 +32,7 @@ public class PetDetailsActivity extends AppCompatActivity {
 
         Pet selectedPet =detailsIntent.getParcelableExtra("SelectedPet") ;
 
-        AssetManager am = getAssets() ;
-
-        InputStream stream = null;
-        try {
-            stream = am.open(String.valueOf(selectedPet.getmImageURI()));
-        } catch (IOException e) {
-            Log.e(TAG, "Error loading: " + selectedPet.getmName(), e);
-        }
-        Drawable image = Drawable.createFromStream(stream, selectedPet.getmName()) ;
-        petDetailsImageView.setImageDrawable(image);
+        petDetailsImageView.setImageURI(selectedPet.getmImageURI());
 
         petNameDetailsTextView.setText(selectedPet.getmName());
         descriptionDetailsTextView.setText(selectedPet.getmDetails());

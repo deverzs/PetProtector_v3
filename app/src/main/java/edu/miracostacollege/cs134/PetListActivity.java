@@ -14,6 +14,7 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -47,10 +48,13 @@ public class PetListActivity extends AppCompatActivity {
 
         db = new DBHelper(this);
 
-        db.addPet(new Pet( "Fluffy", "Fluffy as a cloud","12547896")) ;
+
+        //deleteDatabase(DBHelper.DATABASE_NAME) ;
         petImageView = findViewById((R.id.petImageView)) ;
         currentImage = getUriToResource(this, R.drawable.none) ;
-        db.addPet(new Pet( "Fluffy", "Fluffy as a cloud","12547896", currentImage)) ;
+
+        //db.addPet(new Pet( "Fluffy", "Fluffy as a cloud","12547896", currentImage)) ;
+
         //assign petImageView to current Image in one line of code
         petImageView.setImageURI(currentImage);
         //to read the description as the screen reader, but content description
@@ -61,8 +65,6 @@ public class PetListActivity extends AppCompatActivity {
         petListAdapter = new PetListAdapter(this, R.layout.pet_list_item, petList) ;
         petListView = findViewById(R.id.petListView) ;
         petListView.setAdapter(petListAdapter);
-
-
 
 
     }
@@ -76,7 +78,7 @@ public class PetListActivity extends AppCompatActivity {
     }
 
 
-    //URI not being added --- FIGURE IT OUT
+
     public void addPetButton(View v) {
         EditText petNameEditText = findViewById(R.id.petNameEditText) ;
         EditText descriptionEditText = findViewById(R.id.descriptionEditText);
@@ -85,19 +87,22 @@ public class PetListActivity extends AppCompatActivity {
         String name = petNameEditText.getText().toString() ;
         String description = descriptionEditText.getText().toString() ;
         String phone = phoneEditText.getText().toString() ;
+        String image = currentImage.toString();
 
         if(TextUtils.isEmpty(name) || TextUtils.isEmpty(description) || TextUtils.isEmpty(phone)) {
             Toast.makeText(this, "All fields have to be filled in." , Toast.LENGTH_LONG) ;
             return ;
         }
 
-        Pet newPet = new Pet(description, name, phone) ;
+        Pet newPet = new Pet(description, name, phone, Uri.parse(image)) ;
         db.addPet(newPet);
         petListAdapter.add(newPet);
 
         petNameEditText.setText("");
         descriptionEditText.setText("");
         phoneEditText.setText("");
+
+        petImageView.setImageURI(getUriToResource(this, R.drawable.none));
 
     }
     //Helper method to construct URI in th form
