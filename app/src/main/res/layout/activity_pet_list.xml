@@ -59,6 +59,7 @@
         android:id="@+id/phoneEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/ic_launcher_background"
         android:ems="10"
         android:hint="@string/phone"
         android:inputType="phone" />

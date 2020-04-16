@@ -27,40 +27,46 @@ import java.util.List;
 import edu.miracostacollege.cs134.Model.DBHelper;
 import edu.miracostacollege.cs134.Model.Pet;
 
-//Main
+/**
+ * The main activity for PetProtector
+ */
 public class PetListActivity extends AppCompatActivity {
 
 
-    private ImageView petImageView;
-    private Uri currentImage;
+    //instance variables
+    private ImageView petImageView;                     //selected by user
+    private Uri currentImage;                           // URI of selected image by user
     public static final int RESULT_LOAD_IMAGE = 101;
     public static final String TAG = PetListActivity.class.getSimpleName();
 
     private DBHelper db;
     private List<Pet> petList ;
-    private PetListAdapter petListAdapter ;
-    private ListView petListView ;
+    private PetListAdapter petListAdapter ;             //adapter
+    private ListView petListView ;                      //list that holds all the pets
 
+
+    /**
+     * Inflates and loads acitivity_pet_list
+     * Wires up the layout
+     * Instantiates database helper
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_list);
 
+        //DBHElper
         db = new DBHelper(this);
-
-
-        //deleteDatabase(DBHelper.DATABASE_NAME) ;
+        deleteDatabase(DBHelper.DATABASE_NAME) ;
         petImageView = findViewById((R.id.petImageView)) ;
         currentImage = getUriToResource(this, R.drawable.none) ;
 
-        //db.addPet(new Pet( "Fluffy", "Fluffy as a cloud","12547896", currentImage)) ;
 
         //assign petImageView to current Image in one line of code
         petImageView.setImageURI(currentImage);
-        //to read the description as the screen reader, but content description
-        //petImageView.setContentDescription(pet.getDescription());
 
-
+        //get all the pets from the database
         petList = db.getAllPets() ;
         petListAdapter = new PetListAdapter(this, R.layout.pet_list_item, petList) ;
         petListView = findViewById(R.id.petListView) ;
@@ -69,61 +75,86 @@ public class PetListActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Get the details of the selected pet from the database
+     * @param v  the selected pet
+     */
     public  void viewPetDetails(View v){
+
+        //get tag
         Pet selectedPet = (Pet) v.getTag() ;
 
+        //new intent and get the selected pet's details
         Intent detailsIntent = new Intent(this, PetDetailsActivity.class) ;
         detailsIntent.putExtra("SelectedPet", selectedPet) ;
         startActivity(detailsIntent);
     }
 
 
-
+    /**
+     * Adds a chosen animal to the list and database
+     * @param v  the button pressed
+     */
     public void addPetButton(View v) {
+
+        //wire up the edit texts
         EditText petNameEditText = findViewById(R.id.petNameEditText) ;
         EditText descriptionEditText = findViewById(R.id.descriptionEditText);
         EditText phoneEditText = findViewById(R.id.phoneEditText);
 
+        //get the input strings
         String name = petNameEditText.getText().toString() ;
         String description = descriptionEditText.getText().toString() ;
         String phone = phoneEditText.getText().toString() ;
+
+        //get the image chosen path
         String image = currentImage.toString();
 
+        //check if any fields left empty
         if(TextUtils.isEmpty(name) || TextUtils.isEmpty(description) || TextUtils.isEmpty(phone)) {
-            Toast.makeText(this, "All fields have to be filled in." , Toast.LENGTH_LONG) ;
+            Toast.makeText(this, "All fields have to be filled in." , Toast.LENGTH_LONG).show(); ;
             return ;
         }
 
-        Pet newPet = new Pet(description, name, phone, Uri.parse(image)) ;
+        //create new pet to add tp database and list
+        Pet newPet = new Pet(name, description, phone, Uri.parse(image)) ;
         db.addPet(newPet);
         petListAdapter.add(newPet);
 
+        //reset the edit texts and image view
         petNameEditText.setText("");
         descriptionEditText.setText("");
         phoneEditText.setText("");
-
         petImageView.setImageURI(getUriToResource(this, R.drawable.none));
 
     }
-    //Helper method to construct URI in th form
-    //Android.resource:packageName/ResourceTyep/ResourceName
 
+    /**
+     * Helper method to construct URI in th form
+     * @param context   where coming from
+     * @param resID  the resource id of the image
+     * @return  the URI that is the path to the image
+     */
     public static Uri  getUriToResource(Context context, int resID)
     {
         //Get reference to all resources in app
         Resources res = context.getResources();
 
+        //create the URI string
         String uriString = ContentResolver.SCHEME_ANDROID_RESOURCE +
                 "://" + res.getResourcePackageName(resID)  +
                 "/" + res.getResourceTypeName(resID) +
                 "/" + res.getResourceEntryName(resID) ;
+
         //convert string to Uri object
         return Uri.parse(uriString) ;
-
-
     }
 
-    //method responds to click of image view
+
+    /**
+     * Responds to click of image view
+     * @param v  the view that is the image view
+     */
     public void selectPetImage(View v)
     {
         //make up request code for perm, arbitrary
@@ -176,9 +207,8 @@ public class PetListActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType("image/*");
             startActivityForResult(intent, RESULT_LOAD_IMAGE); //purpose to get a result to load image
-
-
         }
+
         //get result and put in image view
         else //user not given permissions
         {
@@ -187,14 +217,10 @@ public class PetListActivity extends AppCompatActivity {
 
         }
 
-
-
-
     } //end
 
     //Override onActivityResult, after user has picked something
     //short cut is Cntr+O
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         //rid of super
@@ -210,9 +236,10 @@ public class PetListActivity extends AppCompatActivity {
         // result code is not ok if didn;t pick an image
         //result code is ok if actually pick picture
 
-        if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null) //meaning didn't cancel out of it and they actually picked an image
+        //meaning didn't cancel out of it and they actually picked an image
+        if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null)
         {
-            //URI - assign curernt image to intent that is chosen
+            //URI - assign current image to intent that is chosen
             //data is where URI is coming from
             currentImage = data.getData() ; //reference to picture, intent stores image as URI already
             petImageView.setImageURI(currentImage);
